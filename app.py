@@ -245,11 +245,16 @@ hr { border-color: var(--border) !important; margin: 1.5rem 0 !important; }
 # ---------- API config ----------
 
 load_dotenv()
+''' FOR LOCAL EXECUTION
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
+TAVILY_API_KEY = os.getenv("TAVILY_API_KEY", "")'''
+
+GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
+TAVILY_API_KEY = st.secrets["TAVILY_API_KEY"]
 GROQ_URL     = "https://api.groq.com/openai/v1/chat/completions"
 GROQ_MODEL   = "llama-3.1-8b-instant"
 
-TAVILY_API_KEY = os.getenv("TAVILY_API_KEY", "")
+
 TAVILY_URL     = "https://api.tavily.com/search"
 
 
