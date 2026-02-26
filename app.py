@@ -39,12 +39,203 @@ html, body, [class*="css"] {
 #MainMenu, footer, header { visibility: hidden; }
 .block-container { padding: 2rem 2.5rem !important; max-width: 1300px; }
 
+/* ===== HAMBURGER NAV ===== */
+#ham-toggle { display: none; }
+
+.ham-nav-wrapper {
+    position: relative;
+    z-index: 9999;
+    margin-bottom: 1.5rem;
+}
+
+.ham-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.6rem 1rem;
+}
+
+.ham-brand {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, var(--accent) 0%, #4fd9ff 50%, var(--yellow) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+}
+
+.ham-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 6px;
+    transition: background 0.2s;
+    user-select: none;
+}
+.ham-btn:hover { background: var(--border); }
+
+.ham-btn span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Animate to X when open */
+#ham-toggle:checked ~ .ham-nav-wrapper .ham-btn span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+#ham-toggle:checked ~ .ham-nav-wrapper .ham-btn span:nth-child(2) {
+    opacity: 0;
+}
+#ham-toggle:checked ~ .ham-nav-wrapper .ham-btn span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+.ham-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+}
+
+#ham-toggle:checked ~ .ham-nav-wrapper .ham-menu {
+    display: block;
+}
+
+.ham-menu a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.75rem 1.2rem;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--muted) !important;
+    text-decoration: none !important;
+    border-bottom: 1px solid var(--border);
+    transition: all 0.15s ease;
+    letter-spacing: 0.02em;
+}
+.ham-menu a:last-child { border-bottom: none; }
+.ham-menu a:hover {
+    background: var(--border);
+    color: var(--text) !important;
+}
+.ham-menu a.active {
+    background: rgba(126,255,192,0.08);
+    color: var(--accent) !important;
+    border-left: 3px solid var(--accent);
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .block-container {
+        padding: 0.75rem 0.75rem !important;
+    }
+
+    /* Hide sidebar on mobile */
+    [data-testid="stSidebar"] {
+        display: none !important;
+    }
+
+    .main-title {
+        font-size: 1.7rem !important;
+        line-height: 1.2 !important;
+    }
+    .sub-title {
+        font-size: 0.72rem !important;
+        white-space: normal !important;
+        overflow-wrap: break-word !important;
+        word-break: break-word !important;
+    }
+
+    /* Prevent word breaks everywhere */
+    * {
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+
+    /* Larger tap targets for inputs */
+    .stTextInput > div > div > input,
+    .stTextArea > div > div > textarea {
+        font-size: 1rem !important;
+        padding: 0.7rem !important;
+    }
+
+    .stButton > button {
+        font-size: 0.85rem !important;
+        padding: 0.65rem 0.9rem !important;
+        min-height: 44px !important;
+    }
+
+    .response-box {
+        font-size: 0.82rem !important;
+        padding: 1rem !important;
+        max-height: 400px !important;
+    }
+
+    .quiz-q { font-size: 0.88rem !important; }
+    .quiz-opt { font-size: 0.8rem !important; }
+    .fc-q { font-size: 0.88rem !important; }
+    .fc-a { font-size: 0.8rem !important; }
+
+    .card { padding: 1rem !important; }
+
+    /* Make 2-col layouts stack on mobile */
+    [data-testid="column"] {
+        min-width: 100% !important;
+    }
+}
+
+@media (min-width: 769px) {
+    /* On desktop, hide hamburger entirely — sidebar handles nav */
+    .ham-nav-wrapper { display: none !important; }
+    #ham-toggle { display: none !important; }
+
+    /* Force sidebar to always be visible and open on desktop */
+    [data-testid="stSidebar"] {
+        display: flex !important;
+        visibility: visible !important;
+        width: 260px !important;
+        min-width: 260px !important;
+        transform: none !important;
+        opacity: 1 !important;
+    }
+    /* Hide the collapse arrow button so user can't close the sidebar */
+    [data-testid="stSidebarCollapseButton"],
+    [data-testid="collapsedControl"],
+    button[kind="header"] {
+        display: none !important;
+    }
+}
+
 [data-testid="stSidebar"] {
     background: var(--surface) !important;
     border-right: 1px solid var(--border) !important;
 }
 
-h1, h2, h3 { font-family: 'Syne', sans-serif !important; letter-spacing: -0.02em; }
+h1, h2, h3 {
+    font-family: 'Syne', sans-serif !important;
+    letter-spacing: -0.02em;
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+}
 
 .main-title {
     font-family: 'Syne', sans-serif;
@@ -246,11 +437,11 @@ hr { border-color: var(--border) !important; margin: 1.5rem 0 !important; }
 
 load_dotenv()
 #''' FOR LOCAL EXECUTION
-#GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
-#TAVILY_API_KEY = os.getenv("TAVILY_API_KEY", "")'''
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
+TAVILY_API_KEY = os.getenv("TAVILY_API_KEY", "")
 
-GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
-TAVILY_API_KEY = st.secrets["TAVILY_API_KEY"]
+#GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
+#TAVILY_API_KEY = st.secrets["TAVILY_API_KEY"]
 GROQ_URL     = "https://api.groq.com/openai/v1/chat/completions"
 GROQ_MODEL   = "llama-3.1-8b-instant"
 
@@ -368,6 +559,42 @@ for k, v in defaults.items():
     if k not in st.session_state:
         st.session_state[k] = v
 
+# ---------- query-param page routing (used by hamburger nav links) ----------
+_valid_pages = {"Explain", "Summarize", "Quiz", "Flashcards", "Chat", "Search"}
+_qp = st.query_params.get("page", "")
+if _qp in _valid_pages and st.session_state.page != _qp:
+    st.session_state.page = _qp
+
+# ---------- hamburger nav (always visible, works on all screen sizes) ----------
+_cur = st.session_state.page
+_nav_items = [
+    ("🔍", "Explain",    "Explain"),
+    ("📝", "Summarize",  "Summarize"),
+    ("❓", "Quiz",       "Quiz"),
+    ("🃏", "Flashcards", "Flashcards"),
+    ("💬", "Chat",       "Chat"),
+    ("🌐", "Search",     "Web Search"),
+]
+
+_links_html = "\n".join(
+    f'<a href="?page={key}" target="_self" class="{"active" if key == _cur else ""}">{icon}&nbsp;&nbsp;{label}</a>'
+    for icon, key, label in _nav_items
+)
+
+st.markdown(f"""
+<input type="checkbox" id="ham-toggle">
+<div class="ham-nav-wrapper">
+  <div class="ham-bar">
+    <span class="ham-brand">🧠 StudyBuddy AI</span>
+    <label for="ham-toggle" class="ham-btn" title="Menu">
+      <span></span><span></span><span></span>
+    </label>
+  </div>
+  <nav class="ham-menu">
+    {_links_html}
+  </nav>
+</div>
+""", unsafe_allow_html=True)
 
 # ---------- sidebar ----------
 
@@ -911,16 +1138,10 @@ elif st.session_state.page == "Search":
     # landing state: clickable suggestion pills that actually trigger a search
     elif not st.session_state.search_query:
         st.markdown("---")
-        st.markdown('<div style="font-family:Syne,sans-serif; font-weight:700; font-size:0.8rem; color:#6b7591; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.75rem;">💡 Try searching for</div>', unsafe_allow_html=True)
+        #st.markdown('<div style="font-family:Syne,sans-serif; font-weight:700; font-size:0.8rem; color:#6b7591; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.75rem;">💡 Try searching for</div>', unsafe_allow_html=True)
 
-        suggestions = [
-            "How does photosynthesis work?",
-            "Causes of World War I",
-            "Newton's laws of motion explained",
-            "What is machine learning?",
-            "The French Revolution summary",
-            "How does DNA replication work?",
-        ]
+        suggestions = []
+            
 
         cols = st.columns(3)
         for i, s in enumerate(suggestions):
@@ -932,4 +1153,3 @@ elif st.session_state.page == "Search":
                     st.session_state.pending_search = s
                     st.rerun()
                 st.markdown('</div>', unsafe_allow_html=True)
-
